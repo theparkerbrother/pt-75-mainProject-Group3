@@ -1,6 +1,11 @@
+import { faLeaf } from "@fortawesome/free-solid-svg-icons";
+
 export const initialStore=()=>{
   return{
     message: null,
+    user: {
+      isAuthenticated: false
+    },
     todos: [
       {
         id: 1,

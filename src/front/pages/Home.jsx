@@ -4,9 +4,34 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBomb } from '@fortawesome/free-solid-svg-icons'; // Import the bomb icon
 import { faBullseye } from "@fortawesome/free-solid-svg-icons";
+import { MoviesHeader } from "../components/MoviesHeader";
+import { MoviesRow } from "../components/MoviesRow";
 
 export const Home = () => {
 	const { store, dispatch } = useGlobalReducer();
+
+	const isAuthenticated = store.user?.isAuthenticated;
+
+	const movies = [
+		{
+			title: "Inside Out 2",
+			poster: "https://image.tmdb.org/t/p/w500/kvJqs0vm29U0xJa373wlzHb3FRh.jpg",
+			anticipationScore: 9.3,
+			satisfactionScore: 8.2,
+			myAnticipationScore: 7.5,
+			mySatisfactionScore: 9.0,
+			designation: "/bomb-solid.svg",
+		},
+		{
+			title: "The Wild Robot",
+			poster: "https://image.tmdb.org/t/p/w500/vm94OwAJdVE62BnNdrkM0aAgnEi.jpg",
+			anticipationScore: 5.1,
+			satisfactionScore: 9.4,
+			myAnticipationScore: 6.2,
+			mySatisfactionScore: 8.5,
+			designation: "/hit.svg",
+		},
+	];
 
 	const loadMessage = async () => {
 		try {
@@ -35,54 +60,11 @@ export const Home = () => {
 			<p>{store.message ? store.message : "Loading..."}</p> */}
 			<div className="container">
 				<table className="table">
-					<thead className="thead-dark">
-						<tr>
-							<th scope="col" className="text-start">Title</th>
-							<th scope="col">Poster</th>
-							<th scope="col">Anticipation Score</th>
-							<th scope="col">Satisfaction Score</th>
-							<th scope="col">Designation</th>
-						</tr>
-					</thead>
+					<MoviesHeader isAuthenticated={isAuthenticated} />
 					<tbody>
-						<tr>
-							<td className="text-start">Inside Out 2</td>
-							<td>
-								<img
-									src="https://image.tmdb.org/t/p/w500/kvJqs0vm29U0xJa373wlzHb3FRh.jpg"
-									alt="The Wild Robot Poster"
-									style={{ width: "50px", height: "auto" }}
-								/>
-							</td>
-							<td>9.3</td>
-							<td>8.2</td>
-							<td>
-								<img
-									src="/bomb-solid.svg"
-									alt="Bomb!"
-									style={{ width: "35px", height: "auto" }}
-								/>
-							</td>
-						</tr>
-						<tr>
-							<td className="text-start">The Wild Robot</td>
-							<td>
-								<img
-									src="https://image.tmdb.org/t/p/w500/vm94OwAJdVE62BnNdrkM0aAgnEi.jpg"
-									alt="The Wild Robot Poster"
-									style={{ width: "50px", height: "auto" }}
-								/>
-							</td>
-							<td>5.1</td>
-							<td>9.4</td>
-							<td>
-								<img
-									src="/hit.svg"
-									alt="Hit!"
-									style={{ width: "35px", height: "auto" }}
-								/>
-							</td>
-						</tr>
+						{movies.map((movie, index) => (
+							<MoviesRow key={index} movie={movie} isAuthenticated={isAuthenticated} />
+						))}
 					</tbody>
 				</table>
 			</div>

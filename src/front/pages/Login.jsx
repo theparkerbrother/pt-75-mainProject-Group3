@@ -4,6 +4,9 @@ import useGlobalReducer from "../hooks/useGlobalReducer";  // Custom hook for ac
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Define API base URL from environment variables
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export const Login = () => {
     // Access the global state and dispatch function using the useGlobalReducer hook.
     const { store, dispatch } = useGlobalReducer()
@@ -12,10 +15,31 @@ export const Login = () => {
     const navigate = useNavigate();
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Email:", email, "Password:", password);
-        // Handle login logic here
+
+        try {
+            const response = await fetch(`${backendUrl}/api/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log("Login successful:");
+                console.log("User data is:", data.user);
+                console.log("session data is:", data.session);
+                dispatch({ type: "SET_SESSION", payload: { user: data.user, session: data.session } });
+                navigate("/"); // Redirect to home
+            } else {
+                alert(data.message || "Login failed. Please check your credentials.");
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
+            alert("Something went wrong. Please try again.");
+        }
     };
 
     return (

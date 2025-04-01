@@ -1,4 +1,4 @@
-export const MoviesRow = ({ movie, isAuthenticated }) => {
+export const MoviesRow = ({ movie, isAuthenticated = false }) => {
     return (
         <tr>
             <td className="text-start">{movie.title}</td>

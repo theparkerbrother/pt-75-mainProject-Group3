@@ -3,21 +3,8 @@ import { faLeaf } from "@fortawesome/free-solid-svg-icons";
 export const initialStore=()=>{
   return{
     message: null,
-    user: {
-      isAuthenticated: false
-    },
-    todos: [
-      {
-        id: 1,
-        title: "Make the bed",
-        background: null,
-      },
-      {
-        id: 2,
-        title: "Do my homework",
-        background: null,
-      }
-    ]
+    user: {"isAuthenticated": true},
+    session: null
   }
 }
 
@@ -29,14 +16,12 @@ export default function storeReducer(store, action = {}) {
         message: action.payload
       };
       
-    case 'add_task':
+    case "SET_SESSION":
+        return { ...store, user: action.payload.user, session: action.payload.session };
 
-      const { id,  color } = action.payload
+    case "LOGOUT":
+        return { ...store, user: null, session: null };
 
-      return {
-        ...store,
-        todos: store.todos.map((todo) => (todo.id === id ? { ...todo, background: color } : todo))
-      };
     default:
       throw Error('Unknown action.');
   }    

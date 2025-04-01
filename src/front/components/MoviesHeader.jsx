@@ -1,4 +1,4 @@
-export const MoviesHeader = ({ isAuthenticated }) => {
+export const MoviesHeader = ({ isAuthenticated = false }) => {
     return (
         <thead className="thead-dark">
             <tr>

@@ -72,7 +72,6 @@ def login():
             "password": password
         })
 
-        # Extract user data and session
         user = response.user
         session = response.session
 
@@ -86,12 +85,18 @@ def login():
                 "email": user.email,
                 "created_at": user.created_at
             },
-            "access_token": session.access_token,  # Token for authentication
-            "refresh_token": session.refresh_token
+            "session": {  # Include the full session object
+                "access_token": session.access_token,
+                "refresh_token": session.refresh_token,
+                "expires_in": session.expires_in,
+                "expires_at": session.expires_at,
+                "token_type": session.token_type
+            }
         }), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 
 

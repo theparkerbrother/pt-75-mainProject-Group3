@@ -4,6 +4,9 @@ import useGlobalReducer from "../hooks/useGlobalReducer";  // Custom hook for ac
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Define API base URL from environment variables
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 export const Register = () => {
     // Access the global state and dispatch function using the useGlobalReducer hook.
     const { store, dispatch } = useGlobalReducer()
@@ -12,15 +15,33 @@ export const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (password !== confirmPassword) {
             alert("Passwords do not match!");
             return;
         }
-        console.log("Registering:", email, password);
-        // Handle registration logic here
+
+        try {
+            const response = await fetch(`${backendUrl}/api/register`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (response.status === 201) {
+                navigate("/confirm-email"); // Redirect to email confirmation page
+            } else {
+                const data = await response.json();
+                alert(data.message || "Registration failed");
+            }
+        } catch (error) {
+            console.error("Error during registration:", error);
+            alert("Something went wrong. Please try again.");
+        }
     };
+
 
     return (
         <div className="container d-flex justify-content-center align-items-center">

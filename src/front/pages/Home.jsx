@@ -18,18 +18,21 @@ export const Home = () => {
 			poster: "https://image.tmdb.org/t/p/w500/kvJqs0vm29U0xJa373wlzHb3FRh.jpg",
 			anticipationScore: 9.3,
 			satisfactionScore: 8.2,
+			designation: "/bomb-solid.svg",
 			myAnticipationScore: 7.5,
 			mySatisfactionScore: 9.0,
-			designation: "/bomb-solid.svg",
+			myDesignation: "/hit.svg",
 		},
 		{
 			title: "The Wild Robot",
 			poster: "https://image.tmdb.org/t/p/w500/vm94OwAJdVE62BnNdrkM0aAgnEi.jpg",
 			anticipationScore: 5.1,
 			satisfactionScore: 9.4,
+			designation: "/hit.svg",
 			myAnticipationScore: 6.2,
 			mySatisfactionScore: 8.5,
-			designation: "/hit.svg",
+			myDesignation: "/bomb-solid.svg",
+
 		},
 	];
 
